@@ -1,25 +1,56 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import {Box, TextField} from "@mui/material";
+import {AccountCircle} from "@mui/icons-material";
+import LoadingButton from '@mui/lab/LoadingButton';
+
+import {httpQuery} from "./api/fetchWrapper";
+import {API} from "./api/API";
+
+type TSuccess<S> = {
+    success: S;
+};
+
+type TError = {
+    error: string;
+};
+
+type TApiResponses<T> = TSuccess<T> & TError;
+
+const App = () => {
+    const [loading, setLoading] = React.useState(false);
+    const fetchUsers = async () => {
+        setLoading(true);
+        const result = await httpQuery<{ [x: string]: string }, TApiResponses<any>>(
+            'GET',
+            API.users,
+        );
+        setLoading(false);
+        return result;
+    }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Box style={{height: '100Vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', gap: 20}}>
+        <Box>
+      <AccountCircle sx={{ color: 'red', mr: 0.5, my: 0.5 }} />
+      <TextField
+          id="input-with-icon-textfield"
+          label=""
+          color={'warning'}
+          placeholder={'Username...'}
+          variant="standard"
+      />
+        </Box>
+        <LoadingButton
+            size="medium"
+            onClick={() => fetchUsers()}
+            loading={loading}
+            loadingIndicator="Loading…"
+            variant="outlined"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+            <span>Fetch data</span>
+        </LoadingButton>
+    </Box>
   );
 }
 
