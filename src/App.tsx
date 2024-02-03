@@ -1,24 +1,17 @@
-import { Box } from "@mui/material";
 import { BrowserRouter, Outlet } from "react-router-dom";
+import { Container } from "@mui/material";
 
 import InternalRouter from "./router/Router";
+import { useStyles } from "./AppStyles";
 
 const App = () => {
+  const styles = useStyles();
   return (
     <BrowserRouter>
-      <Box
-        style={{
-          height: "100Vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          gap: 20,
-        }}
-      >
+      <Container maxWidth={"md"} className={styles.container}>
         <InternalRouter />
         <Outlet />
-      </Box>
+      </Container>
     </BrowserRouter>
   );
 };

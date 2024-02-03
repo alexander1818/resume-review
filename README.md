@@ -1,3 +1,7 @@
+# Description
+
+An application to search and view brief information about a GitHub user
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
